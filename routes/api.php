@@ -18,6 +18,7 @@ use App\Http\Controllers\ApiController;
 
 Route::get('/places-to-visit', [ApiController::class, 'getPlacesToVisit']);
 Route::get('/services', [ApiController::class, 'getServices']);
+Route::get('/services-images/{id}', [ApiController::class, 'getServicesImages']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
