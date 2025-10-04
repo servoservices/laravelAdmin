@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\PlaceToVisit;
 use App\Service;
 use App\ServicesImage;
+use App\ServiceGallery;
+use App\HotelImage;
+use App\Client;
 
 class ApiController extends Controller
 {
@@ -27,5 +30,47 @@ class ApiController extends Controller
     {
         $services=ServicesImage::where('services_fk', $category)->get();
         return response()->json($services);
+    }
+
+    public function getServiceGalleryByKF($id)
+    {
+        $services=ServiceGallery::where('services_fk', $id)->get();
+        return response()->json($services);
+    }
+    public function getHotelImages($id)
+    {
+        $hotelimages=HotelImage::where('service_fk', $id)->first();
+        return response()->json($hotelimages);
+    }
+
+    //create a function to create a new client
+    public function createClient(Request $request)
+    {
+        $client=new Client();
+        $client->name=$request->name;
+        $client->last_name=$request->lastname;
+        $client->phone_number=$request->phone;
+        $client->email=$request->email;
+        $client->password=$request->password;
+        $client->verif_code=mt_rand(1000, 9999);
+        $client->member=0;
+        $client->is_verif=0;
+        $client->save();
+
+        return response()->json(['message' => $request->name]);
+    }
+    // create a function to to login
+    public function login(Request $request)
+    {
+        $client=Client::where('email', $request->email)->first();
+        if($client){
+            if($client->password==$request->password){
+                return response()->json(['client' => $client]);
+            }else{
+                return response()->json(['message' => 'Password incorrect']);
+            }
+        }else{
+            return response()->json(['message' => 'Email incorrect']);
+        }
     }
 }
