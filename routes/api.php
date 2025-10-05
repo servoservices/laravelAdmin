@@ -24,6 +24,8 @@ Route::get('/hotel-images/{id}', [ApiController::class, 'getHotelImages']);
 Route::post('/create-client', [ApiController::class, 'createClient']);
 Route::post('/login', [ApiController::class, 'login']);
 Route::post('/verify-client', [ApiController::class, 'verifyClient']);
+Route::post('/create-reservation', [ApiController::class, 'createReservation']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

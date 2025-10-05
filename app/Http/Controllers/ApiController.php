@@ -9,6 +9,7 @@ use App\ServicesImage;
 use App\ServiceGallery;
 use App\HotelImage;
 use App\Client;
+use App\Reservation;
 
 class ApiController extends Controller
 {
@@ -88,5 +89,23 @@ class ApiController extends Controller
         }else{
             return response()->json(['message' => 'Email incorrect'], 401);
         }
+    }
+     public function createReservation(Request $request)
+    {
+
+         $services=ServicesImage::where('id', $request->service)->first();
+
+        $reservation = new Reservation();
+        $reservation->name = $request->name;
+        $reservation->phone = $request->phone;
+        $reservation->service = $services['title'];
+        $reservation->date = $request->date;
+        $reservation->price = $request->price;
+        $reservation->description = $request->description;
+        $reservation->type_service = $request->type_service;
+        $reservation->status = 'pending';
+        $reservation->save();
+
+        return response()->json(['message' => 'Reservation created successfully']);
     }
 }
