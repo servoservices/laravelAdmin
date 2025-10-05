@@ -65,12 +65,28 @@ class ApiController extends Controller
         $client=Client::where('email', $request->email)->first();
         if($client){
             if($client->password==$request->password){
-                return response()->json(['client' => $client]);
+                return response()->json( $client);
             }else{
-                return response()->json(['message' => 'Password incorrect']);
+                return response()->json(['message' => 'Password incorrect'], 401);
             }
         }else{
-            return response()->json(['message' => 'Email incorrect']);
+            return response()->json(['message' => 'Email incorrect'], 401);
+        }
+    }
+
+    public function verifyClient(Request $request)
+    {
+        $client=Client::where('email', $request->email)->first();
+        if($client){
+            if($client->verif_code==$request->verif_code){
+                $client->is_verif=1;
+                $client->save();
+                return response()->json(['message' => 'Verified']);
+            }else{
+                return response()->json(['message' => 'Code incorrect'], 401);
+            }
+        }else{
+            return response()->json(['message' => 'Email incorrect'], 401);
         }
     }
 }

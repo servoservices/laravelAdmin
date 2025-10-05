@@ -23,6 +23,7 @@ Route::get('/service-gallery/{id}', [ApiController::class, 'getServiceGalleryByK
 Route::get('/hotel-images/{id}', [ApiController::class, 'getHotelImages']);
 Route::post('/create-client', [ApiController::class, 'createClient']);
 Route::post('/login', [ApiController::class, 'login']);
+Route::post('/verify-client', [ApiController::class, 'verifyClient']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
